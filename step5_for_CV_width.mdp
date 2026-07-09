@@ -1,0 +1,42 @@
+integrator              = md
+dt                      = 0.002
+nsteps                  = 50000     ; 100 ps total (50k × 0.002 ps)
+nstxout-compressed      = 500       ; XTC every 1 ps - HIGH FREQUENCY for CV sigma, std calculation
+nstvout                 = 50000     ; velocities at end only (100 ps)
+nstfout                 = 50000     ; forces at end only (100 ps)
+nstcalcenergy           = 100       ; calculate energy every 0.2 ps
+nstenergy               = 500       ; write energy every 1 ps
+nstlog                  = 500       ; log every 1 ps
+;
+cutoff-scheme           = Verlet
+nstlist                 = 20
+vdwtype                 = Cut-off
+vdw-modifier            = None
+DispCorr                = EnerPres
+rvdw                    = 0.9
+rlist                   = 0.9
+rcoulomb                = 0.9
+coulombtype             = PME
+;
+tcoupl                  = Nose-Hoover
+;tc_grps                 = SOLU SOLV
+tc_grps                 = Protein Non-Protein
+tau_t                   = 1.0 1.0
+ref_t                   = 310 310
+;
+pcoupl                  = Parrinello-Rahman
+pcoupltype              = isotropic
+tau_p                   = 5.0
+compressibility         = 4.5e-5
+ref_p                   = 1.0
+;
+constraints             = h-bonds
+constraint_algorithm    = LINCS
+continuation            = yes
+;
+nstcomm                 = 100
+;comm_mode               = angular
+comm_mode               = linear
+;comm_grps               = SOLU SOLV
+comm_grps               = Protein Non-Protein
+;

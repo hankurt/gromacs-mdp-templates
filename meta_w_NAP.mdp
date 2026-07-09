@@ -1,0 +1,66 @@
+integrator          =  md 		  ; molecular dynamics integrator (leap-frog algorithm - very stable and accurate)
+dt                  =  0.002	  ; time step in picoseconds (2 femtoseconds)
+nsteps              =  300000000  ; number of steps, for 600ns (2fs stepsize)
+init_step           =  0          ; if there is need to restart, see	
+comm_mode           =  angular    ; removal of translational and rotational CM motion, Good for preventing rotation drift
+nstcomm             =  100        ; frequency of the removal
+comm_grps           =  System     ; group(s) for CM motion removal, default is all system
+;
+;  OUTPUT CONTROL
+nstxout-compressed  =  12500	; XTC every 25 ps
+compressed-x-precision =  1000  ; default - 0.001 nm precision           
+nstxout             =  100000   ; TRR coords every 200 ps
+compressed-x-grps   =  Protein_NAP	; save protein + NAP cofactor to the compressed (xtc) trajectory
+nstvout             =  500000   ; velocities every 1 ns
+nstfout             =  500000   ; forces every 1 ns
+nstlog              =  50000    ; log every 100 ps
+nstenergy           =  50000    ; energy every 100 ps
+energygrps          =  System
+;
+;  NEIGHBOR SEARCHING
+cutoff-scheme       =  Verlet 	; Verlet cutoff scheme - GPU optimized, more accurate than group scheme
+verlet-buffer-tolerance = 0.005	; automatically calculates rlist based on energy drift tolerance (kJ/mol/ps/atom)
+nstlist             =  20 		; update neighbor list every 20 steps (40 fs) - good for GPU efficiency
+;ns_type            =  grid		; removed in new gromacs - Verlet scheme always uses grid
+pbc                 =  xyz      ; pbc all 3 dimentions
+;rlist              =  1.0 		; removed - Verlet scheme auto-calculates from verlet-buffer-tolerance
+;
+;  ELECTROSTATIC AND VDWAALS
+coulombtype         =  PME 		; Particle Mesh Ewald for long-range electrostatics
+;rcoulomb_switch    =  0 		; not used with PME (only for switched coulomb)
+rcoulomb            =  1.0 		; real-space cutoff for electrostatics (nm)
+epsilon_r           =  1 		; relative dielectric constant (1 = vacuum)
+vdwtype             =  cut-off 	; Van der Waals with sharp cutoff
+;rvdw_switch        =  0 		; not used with cut-off (only for switched vdw)
+;rvdw               =  1.0 		; cut-off for vdw, Most modern force fields are parameterized with equal Coulomb and vdW cutoffs
+DispCorr            =  EnerPres ; long-range dispersion corrections for energy and pressure
+fourierspacing      =  0.12 	; grid spacing for PME (nm) - affects accuracy/speed
+;ewald_rtol         =  1e-5 	; default PME accuracy - usually not needed to set
+;pme_order          =  4 		; default PME interpolation order - usually not needed
+;optimize_fft       =  yes 		; removed in new versions - always optimizes
+;
+;  T COUPLING
+tcoupl              =  V-rescale ; Bussi velocity rescaling thermostat - stable & correct ensemble
+tc_grps             =  System 	 ; single coupling group for whole system
+ref_t               =  310.0 	 ; reference temperature (K) - physiological temp
+tau_t               =  1.0 		 ; coupling time constant (ps) - reasonable for V-rescale
+;
+;  P COUPLING/pcou
+pcoupl              =  Parrinello-Rahman
+compressibility     =  4.5e-5 			 ; isothermal compressibility of water (bar^-1)
+tau_p               =  5.0 				 ; pressure coupling time (ps) - avoid resonance with tau_t
+ref_p               =  1.0 				 ; reference pressure (bar) - atmospheric pressure
+pcoupltype          =  isotropic 		 ; equal scaling in all directions
+nstpcouple	    	=  -1 				 ; default - couples every nstlist steps when using Verlet
+;
+;  VEL GEN
+gen_vel             = yes  ; generate initial velocities from Maxwell distribution
+gen_temp            = 310  ; temperature for velocity generation (K)
+gen_seed            = -1   ; random seed (-1 = use time-based seed)
+;
+;  BONDS
+constraints         =  h-bonds   ; constrain all bonds with H atoms (allows 2 fs timestep)
+;lincs_warnangle     = 180 		 ; max angle for LINCS warnings (degrees) - default 30° is better
+constraint_algorithm = lincs 	 ; LINCS algorithm - fast & stable for MD
+;lincs_order         = 0 		 ; LINCS order - default 4 is better, 0 would be bad!
+;continuation = yes				 ; default is 'no', gen_vel = yes already!
