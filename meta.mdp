@@ -11,7 +11,7 @@ comm_grps           =  System     ; group(s) for CM motion removal, default is a
 ;  OUTPUT CONTROL
 nstxout-compressed  =  12500	; XTC every 25 ps
 compressed-x-precision =  1000  ; default - 0.001 nm precision           
-;nstxout             =  100000   ; TRR coords every 200 ps "I prefer not to save trr for gEDES sims. XTC is enought to preceed"
+;nstxout             =  500000   ; TRR coords every 1ns "I prefer not to save trr for gEDES sims. XTC is enought to preceed"
 compressed-x-grps   =  Protein	; for cofactor update like 'Protein_NAP'
 nstvout             =  500000   ; velocities every 1 ns
 nstfout             =  500000   ; forces every 1 ns
