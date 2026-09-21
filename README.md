@@ -43,7 +43,7 @@ step6.0_minimization → step6.1…6.6_equilibration → step7_for_CV_width → 
 | `step5_production.mdp` | production (older variant) | md, 2 fs | 500 ps | NPT, Nosé-Hoover + Parrinello-Rahman | 310 |
 | `step5_production_amberff.mdp` | production (AMBER ff) | md, 2 fs | 1 ns | NPT, v-rescale + C-rescale | 310 |
 | `step7_for_CV_width.mdp` | CV-width MD, membrane systems | md, 2 fs | 1 ns | NPT (3 coupling groups) | 310 |
-| `md.mdp` | generic plain MD | md, 2 fs | 10 ns | NPT, V-rescale + Parrinello-Rahman | 300 |
+| `md.mdp` | generic plain MD | md, 2 fs | 100 ps | NPT, V-rescale + Parrinello-Rahman | 300 |
 | `meta.mdp` | metadynamics production | md, 2 fs | 600 ns | NPT, v-rescale + Parrinello-Rahman | 310 |
 | `meta_membrane.mdp` | metadynamics, membrane systems | md, 2 fs | 600 ns | NPT, separate `protein_POPC` / `Water_Ion` coupling | 310 |
 | `meta_w_NAP.mdp` | metadynamics with an NAP/NADP cofactor | md, 2 fs | 600 ns | NPT, cofactor kept in the compressed trajectory | 310 |
