@@ -71,6 +71,10 @@ setup in [rog-adaptive-clustering](https://github.com/hankurt/rog-adaptive-clust
 
 ## Usage notes
 
+- **Index file.** `launch_md.sh` builds `newindex.ndx` from `step3_input.gro` with
+  `echo q | gmx make_ndx` (default groups only: `Protein`, `Non-Protein`, ...),
+  which is enough for the soluble-protein `.mdp` files. Add custom groups in
+  `make_ndx` if a template needs them.
 - **Group names** (`tc_grps`, `comm_grps`, `compressed-x-grps`, e.g. `Protein_NAP`,
   `protein_POPC`, `Water_Ion`) must exist in your `index.ndx`. Edit them to match
   your system.
